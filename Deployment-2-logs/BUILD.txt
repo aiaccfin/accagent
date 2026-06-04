@@ -1,0 +1,74 @@
+2026-06-04T21:01:46.511Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2026-06-04T21:01:46.905Z [INFO]: # Cloning repository: git@github.com:aiaccfin/accagent.git
+2026-06-04T21:01:47.177Z [INFO]: 
+2026-06-04T21:01:47.178Z [INFO]: Cloning into 'accagent'...
+2026-06-04T21:01:47.178Z [INFO]: # Switching to commit: a7e4c084885257d9bd76300ffc639214149a3c9d
+2026-06-04T21:01:47.196Z [INFO]: Note: switching to 'a7e4c084885257d9bd76300ffc639214149a3c9d'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at a7e4c08 update
+2026-06-04T21:01:47.221Z [INFO]: Successfully cleaned up Git credentials
+2026-06-04T21:01:47.221Z [INFO]: # Checking for Git submodules at: /codebuild/output/src371431745/src/accagent/.gitmodules
+2026-06-04T21:01:47.228Z [INFO]: # Retrieving environment cache...
+2026-06-04T21:01:47.279Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
+2026-06-04T21:01:47.279Z [INFO]: ---- Setting Up SSM Secrets ----
+2026-06-04T21:01:47.279Z [INFO]: SSM params {"Path":"/amplify/d3h4jdqfsidmpd/main/","WithDecryption":true}
+2026-06-04T21:01:47.318Z [WARNING]: !Failed to set up process.env.secrets
+2026-06-04T21:01:47.590Z [INFO]: # No package override configuration found.
+2026-06-04T21:01:47.593Z [INFO]: # Retrieving cache...
+2026-06-04T21:01:47.638Z [INFO]: # Retrieved cache
+2026-06-04T21:01:49.301Z [INFO]: ## Starting Backend Build
+                                 ## Checking for associated backend environment...
+                                 ## No backend environment association found, continuing...
+                                 ## Completed Backend Build
+2026-06-04T21:01:49.305Z [INFO]: ## Starting Frontend Build
+                                 # Starting phase: preBuild
+2026-06-04T21:01:49.305Z [INFO]: # Executing command: npm ci --cache .npm --prefer-offline
+2026-06-04T21:01:56.779Z [WARNING]: npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+2026-06-04T21:01:58.405Z [WARNING]: npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2026-06-04T21:02:08.873Z [INFO]: added 1016 packages, and audited 1017 packages in 18s
+                                 290 packages are looking for funding
+2026-06-04T21:02:08.880Z [INFO]: run `npm fund` for details
+2026-06-04T21:02:08.901Z [INFO]: 7 vulnerabilities (6 moderate, 1 critical)
+                                 To address all issues, run:
+                                 npm audit fix
+                                 Run `npm audit` for details.
+2026-06-04T21:02:08.928Z [INFO]: # Completed phase: preBuild
+                                 # Starting phase: build
+                                 # Executing command: npm run build
+2026-06-04T21:02:09.049Z [INFO]: > aiacc-agent@0.1.0 build
+                                 > tsc && vite build
+2026-06-04T21:02:13.651Z [INFO]: vite v7.3.3 building client environment for production...
+2026-06-04T21:02:13.856Z [INFO]: transforming...
+2026-06-04T21:02:17.871Z [INFO]: ✓ 1789 modules transformed.
+2026-06-04T21:02:18.918Z [INFO]: rendering chunks...
+2026-06-04T21:02:19.191Z [INFO]: computing gzip size...
+2026-06-04T21:02:19.231Z [INFO]: build/index.html                         1.15 kB │ gzip:  0.53 kB
+2026-06-04T21:02:19.232Z [INFO]: build/assets/index-CTmDj0gk.css         56.93 kB │ gzip: 10.18 kB
+                                 build/assets/react-vendor-D3l2jybC.js   26.62 kB │ gzip:  9.84 kB │ map:   392.51 kB
+                                 build/assets/ui-vendor-DyrkKmFR.js      38.57 kB │ gzip: 12.37 kB │ map:   201.21 kB
+                                 build/assets/auth-vendor-DYQlI34n.js    72.22 kB │ gzip: 18.99 kB │ map:   217.41 kB
+                                 build/assets/index-BymD2jKA.js         259.35 kB │ gzip: 80.95 kB │ map: 1,185.38 kB
+2026-06-04T21:02:19.232Z [INFO]: ✓ built in 5.55s
+2026-06-04T21:02:19.291Z [INFO]: # Completed phase: build
+                                 ## Completed Frontend Build
+2026-06-04T21:02:19.303Z [INFO]: ## Build completed successfully
+2026-06-04T21:02:19.304Z [INFO]: # Starting caching...
+2026-06-04T21:02:19.307Z [INFO]: # Creating cache artifact...
+2026-06-04T21:02:20.200Z [INFO]: # Created cache artifact
+2026-06-04T21:02:20.201Z [INFO]: # Uploading cache artifact...
+2026-06-04T21:02:21.118Z [INFO]: # Uploaded cache artifact
+2026-06-04T21:02:21.205Z [INFO]: # Caching completed
+2026-06-04T21:02:21.229Z [ERROR]: !!! CustomerError: Artifact directory doesn't exist: dist
+2026-06-04T21:02:21.231Z [INFO]: # Starting environment caching...
+2026-06-04T21:02:21.231Z [INFO]: # Uploading environment cache artifact...
+2026-06-04T21:02:21.326Z [INFO]: # Uploaded environment cache artifact
+2026-06-04T21:02:21.326Z [INFO]: # Environment caching completed
+

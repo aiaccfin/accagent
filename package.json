@@ -10,7 +10,7 @@
     "test:watch": "vitest",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
-    "clean": "rm -rf build/ node_modules/ .vite/"
+    "clean": "rm -rf dist/ node_modules/ .vite/"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.15",

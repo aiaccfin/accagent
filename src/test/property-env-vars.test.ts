@@ -28,7 +28,7 @@ function getAllSourceFiles(dir: string, fileList: string[] = []): string[] {
       if (
         !file.startsWith(".") &&
         file !== "node_modules" &&
-        file !== "build"
+        file !== "dist"
       ) {
         getAllSourceFiles(filePath, fileList);
       }

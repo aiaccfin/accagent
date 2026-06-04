@@ -6,7 +6,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "fs";
 import { resolve, join } from "path";
 
 describe("Build Output Tests", () => {
-  const buildDir = resolve(__dirname, "../../build");
+  const buildDir = resolve(__dirname, "../../dist");
 
   describe("Build Directory", () => {
     it("should have build directory", () => {
