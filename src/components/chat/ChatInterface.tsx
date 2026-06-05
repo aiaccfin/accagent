@@ -83,7 +83,7 @@ const TOOL_META: Record<string, { label: string; icon: string }> = {
 
 const DEBUG_PREFIX = "[Accounting Intake]";
 const LOCAL_AGENT_ENDPOINT =
-    import.meta.env.VITE_AGENTCORE_LOCAL_ENDPOINT || "http://localhost:8000";
+    import.meta.env.VITE_AGENTCORE_LOCAL_ENDPOINT || "https://main.d1iavubplm79mo.amplifyapp.com/agentcore";
 
 // Turn "some_tool_name" into "Some tool name"
 function humanize(name: string): string {
