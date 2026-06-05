@@ -83,7 +83,7 @@ const TOOL_META: Record<string, { label: string; icon: string }> = {
 
 const DEBUG_PREFIX = "[Accounting Intake]";
 const LOCAL_AGENT_ENDPOINT =
-    import.meta.env.VITE_AGENTCORE_LOCAL_ENDPOINT || "https://main.d1iavubplm79mo.amplifyapp.com/agentcore";
+    import.meta.env.VITE_AGENTCORE_LOCAL_ENDPOINT?.trim() || undefined;
 
 // Turn "some_tool_name" into "Some tool name"
 function humanize(name: string): string {
@@ -362,7 +362,7 @@ export default function ChatInterface() {
                 const errorMessage =
                     err instanceof Error ? err.message : "Unknown error";
                 console.warn(
-                    `${DEBUG_PREFIX} Falling back to local agent endpoint`,
+                    `${DEBUG_PREFIX} Runtime config load failed`,
                     {
                         localEndpoint: LOCAL_AGENT_ENDPOINT,
                         error: errorMessage,
