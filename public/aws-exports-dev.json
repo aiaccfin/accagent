@@ -1,0 +1,31 @@
+{
+    "authority": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_IsYqleAY1",
+    "client_id": "6i47v4nd15s0rfr07k4c4n9k1u",
+    "redirect_uri": "https://main.d1iavubplm79mo.amplifyapp.com",
+    "post_logout_redirect_uri": "https://main.d1iavubplm79mo.amplifyapp.com",
+    "response_type": "code",
+    "scope": "email openid profile",
+    "automaticSilentRenew": true,
+    "agentRuntimeArn": "arn:aws:bedrock-agentcore:us-east-1:822206589627:runtime/swarmledger_StrandsAgent-eH0smy4XED",
+    "awsRegion": "us-east-1",
+    "feedbackApiUrl": "https://jfjsd09gki.execute-api.us-east-1.amazonaws.com/prod/",
+    "agentPattern": "medical-content-review",
+    "tools": {
+        "pubmed": {
+            "enabled": true,
+            "default_on": true
+        },
+        "openfda": {
+            "enabled": true,
+            "default_on": true
+        },
+        "clinicaltrials": {
+            "enabled": true,
+            "default_on": true
+        },
+        "nova": {
+            "enabled": true,
+            "default_on": true
+        }
+    }
+}

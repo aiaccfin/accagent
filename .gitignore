@@ -34,7 +34,6 @@ notebooks/examples/data
 frontend/public/aws-exports.json
 .venv
 scripts/zip-artifact/
-public/
 .mkdocs/public/
 .ash/
 infra-cdk/cdk.context.json
