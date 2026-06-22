@@ -17,6 +17,39 @@ export interface AccountingTransaction {
   source_pages?: number[];
   confidence?: number;
   notes?: string;
+  evidence?: string;
+
+  // Invoice-specific fields
+  invoice_number?: string;
+  po_number?: string;
+  due_date?: string;
+  payment_terms?: string;
+  invoice_date?: string;
+
+  // Receipt-specific fields
+  receipt_number?: string;
+  payment_method?: string;
+  payment_date?: string;
+
+  // Bill-specific fields
+  bill_number?: string;
+  vendor_account_number?: string;
+
+  // Bank statement-specific fields
+  statement_period?: string;
+  account_number?: string;
+  opening_balance?: number;
+  closing_balance?: number;
+
+  // Credit card statement-specific fields
+  card_last_four?: string;
+  minimum_payment?: number;
+  payment_due_date?: string;
+
+  // Financial statement-specific fields
+  statement_date?: string;
+  period_start?: string;
+  period_end?: string;
 }
 
 export interface JournalLine {
@@ -104,6 +137,101 @@ function formatElapsed(ms: number): string {
   const m = Math.floor(total / 60);
   const s = total % 60;
   return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+}
+
+function getDocumentTypeIcon(docType?: string): string {
+  const type = docType?.toLowerCase() || "";
+  if (type.includes("invoice")) return "🧾";
+  if (type.includes("receipt")) return "🧾";
+  if (type.includes("bill")) return "💵";
+  if (type.includes("bank")) return "🏦";
+  if (type.includes("credit")) return "💳";
+  if (type.includes("balance")) return "📊";
+  if (type.includes("income")) return "📈";
+  return "📄";
+}
+
+function TransactionTypeDetails({ tx }: { tx: AccountingTransaction }) {
+  const docType = tx.document_type?.toLowerCase() || "";
+
+  const renderField = (label: string, value?: string | number) => {
+    if (!value) return null;
+    return (
+      <div className="flex justify-between text-xs py-1 border-t border-gray-100">
+        <span className="text-gray-500">{label}:</span>
+        <span className="text-gray-900 font-medium">{value}</span>
+      </div>
+    );
+  };
+
+  if (docType.includes("invoice")) {
+    return (
+      <>
+        {renderField("Invoice #", tx.invoice_number)}
+        {renderField("PO #", tx.po_number)}
+        {renderField("Invoice Date", tx.invoice_date)}
+        {renderField("Due Date", tx.due_date)}
+        {renderField("Payment Terms", tx.payment_terms)}
+      </>
+    );
+  }
+
+  if (docType.includes("receipt")) {
+    return (
+      <>
+        {renderField("Receipt #", tx.receipt_number)}
+        {renderField("Payment Method", tx.payment_method)}
+        {renderField("Payment Date", tx.payment_date)}
+      </>
+    );
+  }
+
+  if (docType.includes("bill")) {
+    return (
+      <>
+        {renderField("Bill #", tx.bill_number)}
+        {renderField("Vendor Account", tx.vendor_account_number)}
+        {renderField("Due Date", tx.due_date)}
+        {renderField("Payment Terms", tx.payment_terms)}
+      </>
+    );
+  }
+
+  if (docType.includes("bank") && docType.includes("statement")) {
+    return (
+      <>
+        {renderField("Statement Period", tx.statement_period)}
+        {renderField("Account #", tx.account_number)}
+        {tx.opening_balance !== undefined && renderField("Opening Balance", money(tx.opening_balance))}
+        {tx.closing_balance !== undefined && renderField("Closing Balance", money(tx.closing_balance))}
+      </>
+    );
+  }
+
+  if (docType.includes("credit") && docType.includes("card")) {
+    return (
+      <>
+        {renderField("Statement Period", tx.statement_period)}
+        {renderField("Card Last 4", tx.card_last_four)}
+        {tx.opening_balance !== undefined && renderField("Opening Balance", money(tx.opening_balance))}
+        {tx.closing_balance !== undefined && renderField("Closing Balance", money(tx.closing_balance))}
+        {tx.minimum_payment !== undefined && renderField("Minimum Payment", money(tx.minimum_payment))}
+        {renderField("Payment Due", tx.payment_due_date)}
+      </>
+    );
+  }
+
+  if (docType.includes("balance") || docType.includes("income")) {
+    return (
+      <>
+        {renderField("Statement Date", tx.statement_date)}
+        {renderField("Period Start", tx.period_start)}
+        {renderField("Period End", tx.period_end)}
+      </>
+    );
+  }
+
+  return null;
 }
 
 function ElapsedTimer({ startedAt }: { startedAt: number }) {
@@ -423,17 +551,52 @@ export function ReviewResultsPanel({
             <Section title="Transactions">
               <div className="space-y-3 max-h-72 overflow-auto">
                 {transactions.map((tx, idx) => (
-                  <div key={idx} className="border border-gray-200 rounded-lg p-3">
-                    <div className="flex justify-between gap-3">
-                      <p className="font-semibold text-gray-900">
-                        {tx.counterparty || tx.description || "Transaction"}
-                      </p>
-                      <p className="font-mono font-bold">{money(tx.amount)}</p>
+                  <div key={idx} className="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                    <div className="flex justify-between gap-3 items-start">
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <span className="text-xl shrink-0">{getDocumentTypeIcon(tx.document_type)}</span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold text-gray-900 truncate">
+                            {tx.counterparty || tx.description || "Transaction"}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-0.5">
+                            {tx.date || "No date"} · {tx.document_type || "document"}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="font-mono font-bold text-gray-900">{money(tx.amount)}</p>
+                        <p className="text-xs text-gray-500">{tx.currency || "CAD"}</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {tx.date || "No date"} · {tx.document_type || "document"} · {tx.currency || "CAD"}
-                    </p>
-                    <p className="text-sm text-gray-700 mt-2">{tx.description}</p>
+
+                    {tx.description && (
+                      <p className="text-sm text-gray-700 mt-2 mb-2">{tx.description}</p>
+                    )}
+
+                    <TransactionTypeDetails tx={tx} />
+
+                    {tx.tax_amount !== undefined && tx.tax_amount > 0 && (
+                      <div className="flex justify-between text-xs py-1 border-t border-gray-100 mt-1">
+                        <span className="text-gray-500">Tax Amount:</span>
+                        <span className="text-gray-900 font-medium">{money(tx.tax_amount)}</span>
+                      </div>
+                    )}
+
+                    {tx.confidence !== undefined && (
+                      <div className="flex justify-between text-xs py-1 border-t border-gray-100">
+                        <span className="text-gray-500">Confidence:</span>
+                        <span className={`font-medium ${tx.confidence >= 0.7 ? "text-green-600" : "text-amber-600"}`}>
+                          {(tx.confidence * 100).toFixed(0)}%
+                        </span>
+                      </div>
+                    )}
+
+                    {tx.notes && (
+                      <div className="mt-2 pt-2 border-t border-gray-200">
+                        <p className="text-xs text-gray-600 italic">{tx.notes}</p>
+                      </div>
+                    )}
                   </div>
                 ))}
                 {transactions.length === 0 && (
